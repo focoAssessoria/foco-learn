@@ -14,8 +14,6 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  console.log("isScrolled: ", isScrolled);
-
   const handleScroll = () => {
     if (window.scrollY > 10) {
       setIsScrolled(true);
@@ -35,7 +33,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className={`navbar`}>
+    <div className={`navbar bg-[#141414]/60`}>
       <Link href="/">
         <img src="/logo.png" alt="" className="logo" />
       </Link>

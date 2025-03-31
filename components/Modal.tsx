@@ -2,11 +2,10 @@
 
 import { Genre, Movie, Video } from "@lib/types";
 import { AddCircle, CancelRounded, RemoveCircle } from "@mui/icons-material";
-import { set } from "mongoose";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import Loader from "./Loader";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Loader from "./Loader";
 
 interface Props {
   movie: Movie;
@@ -123,19 +122,22 @@ const Modal = ({ movie, closeModal }: Props) => {
       <div className="modal-content">
         <div className="flex justify-between">
           <div className="flex gap-2">
-            <p className="text-base-bold">Name:</p>
-            <p className="text-base-light">{movie?.title || movie?.name}</p>
+            <p className="text-base-bold">Nome:</p>
+            <p className="text-base-light">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.{" "}
+            </p>
           </div>
           <div className="flex gap-3">
-            <p className="text-base-bold">Add To List</p>
+            <p className="text-base-bold">Favoritar</p>
             {isFavorite ? (
               <RemoveCircle
-                className="cursor-pointer text-pink-1"
+                className="cursor-pointer text-[#690A15]"
                 onClick={handleMyList}
               />
             ) : (
               <AddCircle
-                className="cursor-pointer text-pink-1"
+                className="cursor-pointer text-[#690A15]"
                 onClick={handleMyList}
               />
             )}
@@ -143,22 +145,26 @@ const Modal = ({ movie, closeModal }: Props) => {
         </div>
 
         <div className="flex gap-2">
-          <p className="text-base-bold">Release Date:</p>
-          <p className="text-base-light">{movie?.release_date}</p>
-        </div>
-
-        <p className="text-base-light">{movie?.overview}</p>
-
-        <div className="flex gap-2">
-          <p className="text-base-bold">Rating:</p>
-          <p className="text-base-light">{movie?.vote_average}</p>
-        </div>
-
-        <div className="flex gap-2">
-          <p className="text-base-bold">Genres:</p>
+          <p className="text-base-bold">Data:</p>
           <p className="text-base-light">
-            {genres.map((genre) => genre.name).join(", ")}
+            {new Date().toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
           </p>
+        </div>
+
+        <p className="text-base-light">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book.
+        </p>
+
+        <div className="flex gap-2">
+          <p className="text-base-bold">Categorias:</p>
+          <p className="text-base-light">Categoria 1, Categoria 2</p>
         </div>
       </div>
     </div>
