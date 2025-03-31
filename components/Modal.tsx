@@ -1,14 +1,12 @@
 "use client";
 
-import { Genre, Movie, Video } from "@lib/types";
+import { Genre } from "@lib/types";
 import { AddCircle, CancelRounded, RemoveCircle } from "@mui/icons-material";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loader from "./Loader";
 
 interface Props {
-  movie: Movie;
   closeModal: () => void;
 }
 
@@ -18,18 +16,16 @@ interface User {
   favorites: number[];
 }
 
-const Modal = ({ movie, closeModal }: Props) => {
+const Modal = ({ closeModal }: Props) => {
   const router = useRouter();
 
   const [video, setVideo] = useState("");
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { data: session } = useSession();
-
-  console.log("entrou");
+  // const { data: session } = useSession();
 
   const options = {
     method: "GET",
@@ -39,132 +35,142 @@ const Modal = ({ movie, closeModal }: Props) => {
     },
   };
 
-  const getMovieDetails = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/movie/${movie.id}?append_to_response=videos`,
-        options
-      );
-      const data = await res.json();
+  // const getMovieDetails = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/movie/${movie.id}?append_to_response=videos`,
+  //       options
+  //     );
+  //     const data = await res.json();
 
-      if (data?.videos) {
-        const index = data.videos.results.findIndex(
-          (video: Video) => video.type === "Trailer"
-        );
-        setVideo(data.videos.results[index].key);
-      }
+  //     if (data?.videos) {
+  //       const index = data.videos.results.findIndex(
+  //         (video: Video) => video.type === "Trailer"
+  //       );
+  //       setVideo(data.videos.results[index].key);
+  //     }
 
-      if (data?.genres) {
-        setGenres(data.genres);
-      }
-    } catch (err) {
-      console.log("Error fetching movie details", err);
-    }
-  };
+  //     if (data?.genres) {
+  //       setGenres(data.genres);
+  //     }
+  //   } catch (err) {
+  //     console.log("Error fetching movie details", err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getMovieDetails();
-  }, [movie]);
+  // useEffect(() => {
+  //   getMovieDetails();
+  // }, [movie]);
 
-  // HANDLE MY LIST
-  const getUser = async () => {
-    try {
-      const res = await fetch(`/api/user/${session?.user?.email}`);
-      const data = await res.json();
-      console.log("data: ", data);
-      setUser(data);
-      setIsFavorite(data.favorites.find((item: number) => item === movie.id));
-      setLoading(false);
-    } catch (err) {
-      console.log("Error fetching user", err);
-    }
-  };
+  // // HANDLE MY LIST
+  // const getUser = async () => {
+  //   try {
+  //     const res = await fetch(`/api/user/${session?.user?.email}`);
+  //     const data = await res.json();
+  //     console.log("data: ", data);
+  //     setUser(data);
+  //     setIsFavorite(data.favorites.find((item: number) => item === movie.id));
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log("Error fetching user", err);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (session) getUser();
-  }, [session]);
+  // useEffect(() => {
+  //   if (session) getUser();
+  // }, [session]);
 
-  const handleMyList = async () => {
-    try {
-      const res = await fetch(`/api/user/${session?.user?.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ movieId: movie.id }),
-      });
-      const data = await res.json();
-      setUser(data);
-      setIsFavorite(data.favorites.find((item: number) => item === movie.id));
-      router.refresh();
-    } catch (err) {
-      console.log("Failed to handle my list", err);
-    }
-  };
+  // const handleMyList = async () => {
+  //   try {
+  //     const res = await fetch(`/api/user/${session?.user?.email}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ movieId: movie.id }),
+  //     });
+  //     const data = await res.json();
+  //     setUser(data);
+  //     setIsFavorite(data.favorites.find((item: number) => item === movie.id));
+  //     router.refresh();
+  //   } catch (err) {
+  //     console.log("Failed to handle my list", err);
+  //   }
+  // };
 
   return loading ? (
     <Loader />
   ) : (
-    <div className="modal">
-      <button className="modal-close" onClick={closeModal}>
-        <CancelRounded
-          sx={{ color: "white", fontSize: "35px", ":hover": { color: "red" } }}
-        />
-      </button>
-
-      <iframe
-        src={`https://www.youtube.com/embed/${video}?autoplay=1&mute=1&loop=1`}
-        className="modal-video"
-        loading="lazy"
-        allowFullScreen
+    <div className="w-full z-50 h-full fixed top-0 left-0 flex items-center justify-center">
+      <div
+        className="fixed top-0 left-0 h-full w-full bg-black-1 bg-opacity-60"
+        onClick={closeModal}
       />
+      <div className="modal">
+        <button className="modal-close" onClick={closeModal}>
+          <CancelRounded
+            sx={{
+              color: "white",
+              fontSize: "35px",
+              ":hover": { color: "red" },
+            }}
+          />
+        </button>
 
-      <div className="modal-content">
-        <div className="flex justify-between">
+        <iframe
+          src="https://www.youtube.com/embed/LXb3EKWsInQ?si=94T9a4WZW8itThy9"
+          className="modal-video"
+          loading="lazy"
+          allowFullScreen
+        />
+
+        <div className="modal-content">
+          <div className="flex justify-between">
+            <div className="flex gap-2">
+              <p className="text-base-bold">Nome:</p>
+              <p className="text-base-light">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry.{" "}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <p className="text-base-bold">Favoritar</p>
+              {isFavorite ? (
+                <RemoveCircle
+                  className="cursor-pointer text-[#690A15]"
+                  // onClick={handleMyList}
+                />
+              ) : (
+                <AddCircle
+                  className="cursor-pointer text-[#690A15]"
+                  // onClick={handleMyList}
+                />
+              )}
+            </div>
+          </div>
+
           <div className="flex gap-2">
-            <p className="text-base-bold">Nome:</p>
+            <p className="text-base-bold">Data:</p>
             <p className="text-base-light">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.{" "}
+              {new Date().toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
           </div>
-          <div className="flex gap-3">
-            <p className="text-base-bold">Favoritar</p>
-            {isFavorite ? (
-              <RemoveCircle
-                className="cursor-pointer text-[#690A15]"
-                onClick={handleMyList}
-              />
-            ) : (
-              <AddCircle
-                className="cursor-pointer text-[#690A15]"
-                onClick={handleMyList}
-              />
-            )}
-          </div>
-        </div>
 
-        <div className="flex gap-2">
-          <p className="text-base-bold">Data:</p>
           <p className="text-base-light">
-            {new Date().toLocaleDateString("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
           </p>
-        </div>
 
-        <p className="text-base-light">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </p>
-
-        <div className="flex gap-2">
-          <p className="text-base-bold">Categorias:</p>
-          <p className="text-base-light">Categoria 1, Categoria 2</p>
+          <div className="flex gap-2">
+            <p className="text-base-bold">Categorias:</p>
+            <p className="text-base-light">Categoria 1, Categoria 2</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,14 +1,9 @@
 "use client";
 
-import {
-  EmailOutlined,
-  LockOutlined,
-  PersonOutline,
-} from "@mui/icons-material";
+import { EmailOutlined, LockOutlined } from "@mui/icons-material";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 interface FormData {
@@ -34,34 +29,34 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     let res;
 
-    if (type === "register") {
-      res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    // if (type === "register") {
+    //   res = await fetch("/api/auth/register", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
 
-      if (res.ok) {
-        router.push("/login");
-      } else {
-        toast.error("Something went wrong");
-      }
+    //   if (res.ok) {
+    //     router.push("/login");
+    //   } else {
+    //     toast.error("Something went wrong");
+    //   }
+    // }
+
+    // if (type === "login") {
+    res = await signIn("credentials", {
+      ...data,
+      redirect: false,
+    });
+
+    if (res && res.ok) {
+      router.push("/");
+    } else {
+      toast.error("Invalid credentials");
     }
-
-    if (type === "login") {
-      res = await signIn("credentials", {
-        ...data,
-        redirect: false,
-      });
-
-      if (res && res.ok) {
-        router.push("/");
-      } else {
-        toast.error("Invalid credentials");
-      }
-    }
+    // }
   };
 
   return (
@@ -71,7 +66,7 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
           <img src="/logo.png" alt="logo" className="logo" />
 
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
-            {type === "register" && (
+            {/* {type === "register" && (
               <>
                 <div className="input">
                   <input
@@ -94,7 +89,7 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
                   <p className="error">{errors.username.message}</p>
                 )}
               </>
-            )}
+            )} */}
 
             <div className="input">
               <input
@@ -136,11 +131,12 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
             )}
 
             <button className="button" type="submit">
-              {type === "register" ? "Entrar" : "Cadastrar"}
+              {/* {type === "register" ? "Cadastrar" : "Entrar"} */}
+              Entrar
             </button>
           </form>
 
-          {type === "register" ? (
+          {/* {type === "register" ? (
             <Link href="/login">
               <p className="link">Já tem uma conta? Entre Aqui</p>
             </Link>
@@ -148,7 +144,7 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
             <Link href="/register">
               <p className="link">Ainda não tem uma conta? Cadastre-se Aqui</p>
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { baseImgUrl } from "@lib/constants";
 import { Movie } from "@lib/types";
 import { InfoOutlined, PlayCircleOutlineOutlined } from "@mui/icons-material";
 import { useState } from "react";
@@ -50,7 +49,7 @@ const HeroCard = ({
         </div>
       </div>
 
-      {showModal && <Modal movie={trendingMovie} closeModal={closeModal} />}
+      {showModal && <Modal closeModal={closeModal} />}
     </>
   );
 };

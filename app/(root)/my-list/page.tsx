@@ -19,7 +19,7 @@ const MyList = async () => {
       <Navbar />
       <div className="list">
         {myListDetails.map((movie: Movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} thumbs={""} />
         ))}
       </div>
     </>

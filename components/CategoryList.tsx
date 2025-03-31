@@ -1,11 +1,9 @@
 "use client";
-import { Movie } from "@lib/types";
 import MovieCard from "./MovieCard";
-import React, { useEffect, useState } from "react";
 
 interface Props {
   title: string;
-  movies: Movie[];
+  movies: number;
   thumbs: string[];
 }
 
@@ -15,11 +13,11 @@ const CategoryList = ({ title, movies, thumbs }: Props) => {
       <h1 className="category-title">{title}</h1>
 
       <div className="movie-list">
-        {movies.map((movie) => (
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => (
           <MovieCard
-            key={movie.id}
+            key={"move" + index}
             thumbs={thumbs[Math.floor(Math.random() * 4)]}
-            movie={movie}
+            movie={index}
           />
         ))}
       </div>

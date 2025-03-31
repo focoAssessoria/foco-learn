@@ -159,7 +159,7 @@
 
 /* Modal */
 .modal {
-  @apply fixed inset-0 z-30  bg-black-1 bg-opacity-95 w-full max-w-2xl mx-auto overflow-hidden overflow-y-scroll scrollbar-hide rounded-xl;
+  @apply fixed z-30 bg-black-1 bg-opacity-95 w-full h-2/3 max-w-2xl mx-auto overflow-hidden overflow-y-scroll scrollbar-hide rounded-xl;
 }
 
 .modal-close {
@@ -167,7 +167,7 @@
 }
 
 .modal-video {
-  @apply top-0 left-0 w-full h-3/5;
+  @apply top-0 left-0 w-full aspect-video;
 }
 
 .modal-content {

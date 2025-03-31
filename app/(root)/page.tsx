@@ -1,12 +1,9 @@
 "use client";
-import { fetchGenreMovies } from "@actions/movieData";
 import CategoryList from "@components/CategoryList";
 import Hero from "@components/Hero";
 import Navbar from "@components/Navbar";
-import { Genre } from "@lib/types";
 
-const Home = async () => {
-  const genres = await fetchGenreMovies();
+const Home = () => {
   const categoryNames = [
     "Para o Pecuarista",
     "Para Gerente de Fazendas",
@@ -74,20 +71,20 @@ const Home = async () => {
   ];
 
   return (
-    <div>
+    <>
       <Navbar />
       <Hero />
       <div className="all-movies">
-        {genres.slice(0, 6).map((genre: Genre, index: number) => (
+        {[0, 1, 2, 3, 4, 5].map((index) => (
           <CategoryList
-            key={genre.id}
+            key={"genre" + index}
             title={categoryNames[index]}
-            movies={genre.movies}
+            movies={index}
             thumbs={thumbs[index].thumbs}
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

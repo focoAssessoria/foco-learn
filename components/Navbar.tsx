@@ -72,9 +72,7 @@ const Navbar = () => {
 
         {dropdownMenu && (
           <div className="dropdown-menu">
-            <Link href="/">Home</Link>
-            <Link href="/my-list">My List</Link>
-            <a onClick={handleLogout}>Log Out</a>
+            <a onClick={handleLogout}>Sair</a>
           </div>
         )}
       </div>

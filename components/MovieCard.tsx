@@ -1,11 +1,9 @@
 "use client";
 
-import { baseImgUrl } from "@lib/constants";
-import { Movie } from "@lib/types";
 import { useState } from "react";
 import Modal from "./Modal";
 
-const MovieCard = ({ movie, thumbs }: { movie: Movie; thumbs: string }) => {
+const MovieCard = ({ movie, thumbs }: { movie: any; thumbs: string }) => {
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => setShowModal(true);
@@ -17,6 +15,7 @@ const MovieCard = ({ movie, thumbs }: { movie: Movie; thumbs: string }) => {
         className="movie-card"
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           openModal();
         }}
       >
@@ -28,12 +27,12 @@ const MovieCard = ({ movie, thumbs }: { movie: Movie; thumbs: string }) => {
             //   : "/assets/no-image.png"
           }
           className="thumbnail"
-          alt={movie?.title || movie?.name}
+          alt={""}
         />
         <div className="border"></div>
       </div>
 
-      {showModal && <Modal movie={movie} closeModal={closeModal} />}
+      {showModal && <Modal closeModal={closeModal} />}
     </>
   );
 };

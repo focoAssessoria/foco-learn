@@ -17,7 +17,7 @@ const SearchResults = async ({ query }: { query: string }) => {
 
       <div className="list">
         {searchedMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} thumbs={""} />
         ))}
       </div>
     </div>
