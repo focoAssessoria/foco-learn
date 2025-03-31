@@ -1,11 +1,6 @@
-import { fetchTrending } from "@actions/movieData";
 import HeroCard from "./HeroCard";
 
 const Hero = async () => {
-  const trending = await fetchTrending();
-  const randonNumber = Math.floor(Math.random() * trending.length);
-  const trendingMovie = trending[randonNumber];
-
   const heroData = [
     {
       title: "Tecnologias Aplicadas à Produção",
@@ -53,10 +48,7 @@ const Hero = async () => {
 
   return (
     <div>
-      <HeroCard
-        trendingMovie={trendingMovie}
-        randomHero={heroData[randomHero]}
-      />
+      <HeroCard randomHero={heroData[randomHero]} />
     </div>
   );
 };

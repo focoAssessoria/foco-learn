@@ -1,17 +1,10 @@
 "use client";
 
-import { Movie } from "@lib/types";
 import { InfoOutlined, PlayCircleOutlineOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import Modal from "./Modal";
 
-const HeroCard = ({
-  trendingMovie,
-  randomHero,
-}: {
-  trendingMovie: Movie;
-  randomHero: any;
-}) => {
+const HeroCard = ({ randomHero }: { randomHero: any }) => {
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => setShowModal(true);

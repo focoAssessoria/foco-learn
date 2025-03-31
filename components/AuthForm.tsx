@@ -1,10 +1,8 @@
 "use client";
 
 import { EmailOutlined, LockOutlined } from "@mui/icons-material";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 
 interface FormData {
   username?: string; // Make it optional because we don't need it for login page
@@ -21,9 +19,10 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues:
-      type === "register"
-        ? { username: "", email: "", password: "" }
-        : { email: "", password: "" },
+      // type === "register"
+      // ? { username: "", email: "", password: "" }
+      // :
+      { email: "", password: "" },
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -46,16 +45,16 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
     // }
 
     // if (type === "login") {
-    res = await signIn("credentials", {
-      ...data,
-      redirect: false,
-    });
+    // res = await signIn("credentials", {
+    //   ...data,
+    //   redirect: false,
+    // });
 
-    if (res && res.ok) {
-      router.push("/");
-    } else {
-      toast.error("Invalid credentials");
-    }
+    // if (res && res.ok) {
+    router.push("/");
+    // } else {
+    // toast.error("Invalid credentials");
+    // }
     // }
   };
 
@@ -111,11 +110,11 @@ const AuthForm = ({ type }: { type: "register" | "login" }) => {
                   validate: (value: string | undefined) => {
                     if (
                       !value ||
-                      value.length < 5 ||
-                      value.length > 20 ||
-                      !value.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/)
+                      value.length < 3
+                      // value.length > 20 ||
+                      // !value.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/)
                     ) {
-                      return "Senha deve ter entre 5 e 20 caracteres e conter pelo menos um caractere especial";
+                      return "Senha deve ter pelo menos 3 caracteres";
                     }
                     return true;
                   },
